@@ -1,0 +1,76 @@
+---
+const headers = Astro.request.headers;
+
+const bunnyHeaders = [
+	'cdn-requestcountrycode',
+	'cdn-requestid',
+	'cdn-requestpullcode',
+	'cdn-requestpullsuccess',
+];
+
+const detectedHeaders = bunnyHeaders
+	.map((name) => ({ name, value: headers.get(name) }))
+	.filter((h) => h.value);
+---
+
+<div class="bunny-headers">
+	<h3>Bunny CDN Headers</h3>
+	{
+		detectedHeaders.length > 0 ? (
+			<table>
+				<thead>
+					<tr>
+						<th>Header</th>
+						<th>Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					{detectedHeaders.map((h) => (
+						<tr>
+							<td>
+								<code>{h.name}</code>
+							</td>
+							<td>{h.value}</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+		) : (
+			<p class="no-headers">
+				No Bunny CDN headers detected. These headers are available when running behind Bunny CDN.
+			</p>
+		)
+	}
+</div>
+
+<style>
+	.bunny-headers {
+		margin-top: 2rem;
+		padding: 1.5rem;
+		background: rgba(var(--gray-light), 50%);
+		border-radius: 8px;
+	}
+	h3 {
+		margin-bottom: 1rem;
+	}
+	table {
+		border-collapse: collapse;
+	}
+	th,
+	td {
+		text-align: left;
+		padding: 0.5rem 1rem;
+		border-bottom: 1px solid rgb(var(--gray-light));
+	}
+	th {
+		font-weight: 700;
+		color: rgb(var(--gray-dark));
+	}
+	code {
+		font-size: 0.875em;
+	}
+	.no-headers {
+		color: rgb(var(--gray));
+		font-style: italic;
+	}
+</style>

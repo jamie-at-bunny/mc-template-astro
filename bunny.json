@@ -1,0 +1,21 @@
+{
+  "id": "astro",
+  "name": "Astro",
+  "description": "Astro app with actions, API routes, and Bunny CDN header detection, deployed to Magic Containers.",
+  "icon": "code",
+  "containers": [
+    {
+      "name": "app",
+      "imageNamespace": "ghcr.io",
+      "imageName": "<your-username>/mc-template-astro",
+      "imageTag": "latest",
+      "endpoints": [
+        {
+          "displayName": "HTTP",
+          "type": "CDN",
+          "containerPort": 4321
+        }
+      ]
+    }
+  ]
+}

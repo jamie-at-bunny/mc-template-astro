@@ -1,0 +1,32 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import BunnyHeaders from "../components/BunnyHeaders.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import RabbitButton from "../components/RabbitButton.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    </head>
+    <body>
+        <Header />
+        <main>
+            <h1>Astro on Magic Containers</h1>
+            <p>
+                An Astro app with actions, API routes, and Bunny CDN header
+                detection, ready to deploy on
+                <a href="https://bunny.net/magic-containers/"
+                    >Bunny Magic Containers</a
+                >.
+            </p>
+
+            <RabbitButton />
+            <BunnyHeaders />
+        </main>
+        <Footer />
+    </body>
+</html>

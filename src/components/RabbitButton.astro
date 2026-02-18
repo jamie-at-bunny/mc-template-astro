@@ -1,0 +1,109 @@
+<div class="rabbit-buttons">
+	<div class="button-group">
+		<button id="server-action-btn" class="btn btn-orange">Get Breed (Action)</button>
+		<p id="server-action-result" class="result"></p>
+	</div>
+
+	<div class="button-group">
+		<button id="api-btn" class="btn btn-blue">Get Breed (API Route)</button>
+		<p id="api-result" class="result"></p>
+	</div>
+
+	<div class="button-group">
+		<button id="greeting-btn" class="btn btn-green">Get Location Greeting</button>
+		<p id="greeting-result" class="result"></p>
+	</div>
+</div>
+
+<script>
+	import { actions } from 'astro:actions';
+
+	const serverActionBtn = document.getElementById('server-action-btn') as HTMLButtonElement;
+	const serverActionResult = document.getElementById('server-action-result')!;
+	const apiBtn = document.getElementById('api-btn') as HTMLButtonElement;
+	const apiResult = document.getElementById('api-result')!;
+	const greetingBtn = document.getElementById('greeting-btn') as HTMLButtonElement;
+	const greetingResult = document.getElementById('greeting-result')!;
+
+	serverActionBtn.addEventListener('click', async () => {
+		serverActionBtn.disabled = true;
+		serverActionBtn.textContent = 'Loading...';
+		const { data, error } = await actions.getRandomRabbitBreed();
+		serverActionResult.textContent = error ? 'Something went wrong' : data;
+		serverActionBtn.textContent = 'Get Breed (Action)';
+		serverActionBtn.disabled = false;
+	});
+
+	apiBtn.addEventListener('click', async () => {
+		apiBtn.disabled = true;
+		apiBtn.textContent = 'Loading...';
+		const response = await fetch('/api/rabbit');
+		const json = await response.json();
+		apiResult.textContent = json.breed;
+		apiBtn.textContent = 'Get Breed (API Route)';
+		apiBtn.disabled = false;
+	});
+
+	greetingBtn.addEventListener('click', async () => {
+		greetingBtn.disabled = true;
+		greetingBtn.textContent = 'Loading...';
+		const { data, error } = await actions.getLocationGreeting();
+		greetingResult.textContent = error ? 'Something went wrong' : data;
+		greetingBtn.textContent = 'Get Location Greeting';
+		greetingBtn.disabled = false;
+	});
+</script>
+
+<style>
+	.rabbit-buttons {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5rem;
+	}
+	.button-group {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+	}
+	.btn {
+		padding: 0.75rem 1.5rem;
+		color: white;
+		font-weight: 500;
+		font-size: 1rem;
+		border-radius: 0.5rem;
+		border: none;
+		cursor: pointer;
+		transition: background-color 0.2s;
+	}
+	.btn:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+	.btn-orange {
+		background-color: #f97316;
+	}
+	.btn-orange:hover:not(:disabled) {
+		background-color: #ea580c;
+	}
+	.btn-blue {
+		background-color: #3b82f6;
+	}
+	.btn-blue:hover:not(:disabled) {
+		background-color: #2563eb;
+	}
+	.btn-green {
+		background-color: #22c55e;
+	}
+	.btn-green:hover:not(:disabled) {
+		background-color: #16a34a;
+	}
+	.result {
+		font-size: 1.125rem;
+		font-weight: 500;
+		color: rgb(var(--gray-dark));
+		min-height: 1.5em;
+		margin: 0;
+	}
+</style>
