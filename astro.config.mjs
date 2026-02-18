@@ -13,12 +13,7 @@ export default defineConfig({
     mode: "standalone",
   }),
   security: {
-    allowedDomains: [
-      {
-        hostname: "**.bunny.run",
-        protocol: "https",
-      },
-    ],
+    checkOrigin: false,
   },
   integrations: [mdx(), sitemap()],
 });
